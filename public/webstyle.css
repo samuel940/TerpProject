@@ -77,24 +77,8 @@ form {
     color: white;
 }
 
-legend{
-    font-style: italic;
-}
 
-[name="delete"] {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-#account {
-    font-size: 25px;
-    color: rgb(226, 14, 14);
-}
 
-#logout {
-    display: inline; /* Makes form take only necessary width */
-    margin: 0; /* Removes default form margins */
-}
 
 button {
     background-color: #28a745;
@@ -135,4 +119,26 @@ div{
     padding-right: 10rem;
     padding-bottom: 10rem;
     padding-top: 5rem;
+}
+
+.suggestions {
+  border: 1px solid #ccc;
+  max-width: 250px;
+  background-color: white;
+  position: absolute;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+  color: black;
+  font-size: 12px;
+  text-align: left;
+  width: 8rem;
+}
+
+
+.suggestion-item:hover {
+  background-color: #f0f0f0;
 }
