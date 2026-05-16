@@ -1,0 +1,82 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Testing</title>
+</head>
+
+<body>
+	<header>
+		<h1>Terp Rating Viewer</h1>
+		
+	</header>
+
+	
+	<!-- giving myself credit -->
+    <footer>
+        <p>Made by Samuel Rowe</p>
+    </footer>
+
+	
+	
+</body>
+<script>
+	"use strict";
+	
+	async function main() {
+	const TerpProfessorURL = `https://planetterp.com/api/v1/professors?`;
+
+		try {
+		const response = await fetch(TerpProfessorURL);
+		
+		const json = await response.json();
+		const professor = json[89].name;
+		console.log(professor);
+		} catch (error) {
+			// Code to handle the error
+			console.error("Invalid JSON input:", error.message);
+		}
+	}
+
+	async function rateProfessorForClasses() {
+
+	const url =
+		`https://planetterp.com/api/v1/professor?name=Nelson%20Padua-Perez&reviews=true`;
+
+		try {
+
+			const response = await fetch(url);
+
+			const json = await response.json();
+
+			const allReviews = json.reviews;
+
+			// SQL query
+			/*const results = alasql(`
+			SELECT
+				course,
+				AVG(rating) AS average_rating,
+				COUNT(*) AS total_reviews
+			FROM ?
+			GROUP BY course
+			ORDER BY average_rating DESC
+			`, [allReviews]);*/
+
+			//return results;
+			console.log(allReviews);
+
+		} catch(error) {
+
+			console.error("Invalid JSON input:", error.message);
+
+			//return [];
+		}
+	}
+
+	main();
+	rateProfessorForClasses();
+</script>
+
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "terpproject",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/samuel940/TerpProject#readme",
+  "bugs": {
+    "url": "https://github.com/samuel940/TerpProject/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuel940/TerpProject.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "TerpServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "alasql": "^4.17.2",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  }
+}
