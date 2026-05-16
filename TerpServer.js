@@ -17,10 +17,6 @@ const {
 // open port
 const portNumber = process.env.PORT || 2003;
 
-// get env information
-require("dotenv").config({ 
-  path: path.resolve(__dirname, "credentialsDontPost/.env") 
-});
 
 // getting access to templates (webpages) and public (stylesheet)
 process.stdin.setEncoding("utf8");
