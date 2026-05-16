@@ -39,7 +39,6 @@ app.get("/professor", async (req, res) => {
   
   try {
     const allCourses = await rateAllClassesForProfessor(professor);
-    console.log(allCourses);
 
     if (allCourses.length == 0) {
       res.render("index" ,{ errorProf: `This professor does not exist`, errorCourse: ""});
@@ -72,7 +71,6 @@ app.get("/course", async (req, res) => {
 
   try {
     const allProfessors = await rateAllProfessorsForClass(course);
-    console.log(allProfessors);
 
     if (allProfessors.length == 0) {
       res.render("index" ,{ errorProf: "", errorCourse: `This course does not exist`});
