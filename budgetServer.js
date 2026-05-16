@@ -31,6 +31,29 @@ async function connectToDatabase() {
    }
 }
 
+function authenticateToken(req, res, next) {
+  const token = req.cookies.token;  // read from cookies
+  
+  // if cookies not fount, you need to login
+  if (!token) {
+    // console says when token is gone
+    console.log("No token found - redirecting to login");
+    return res.redirect('/login');
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) {
+      console.log("Token invalid:", err.message);
+      res.clearCookie('token');
+      return res.redirect('/login');
+    }
+    
+    req.user = user;
+    next();
+  });
+}
+
+// getting access to templates (webpages) and public (stylesheet)
 process.stdin.setEncoding("utf8");
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "templates"));
