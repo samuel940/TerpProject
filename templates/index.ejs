@@ -17,7 +17,9 @@
 		<div class="leftSearch">
 			<form action="/professor" method="get">
 				<strong>Search for a Professor</strong><br>
-				<input type="text" name="professor" required>
+				<input type="text" id="professorInput" name="professor" autocomplete="off" required>
+
+				<div id="professorSuggestions" class="suggestions"></div>
 				
 				<input type="submit" value="Search">
 			</form>
@@ -27,7 +29,11 @@
 		<div class="rightSearch">
 			<form action="/course" method="get">
 				<strong>Search for a Course</strong><br>
-				<input type="text" name="course" required>
+				<input type="text" id="courseInput" name="course" autocomplete="off" required>
+
+				<div id="courseSuggestions" class="suggestions"></div>
+
+
 				<input type="submit" value="Search">
 				
 			</form>
@@ -42,5 +48,59 @@
 	
 	
 </body>
+<script>
+
+	async function setupAutocomplete(inputId, suggestionId, route) {
+
+		const input = document.getElementById(inputId);
+		const suggestionsBox = document.getElementById(suggestionId);
+
+		input.addEventListener("input", async () => {
+
+			const query = input.value.trim();
+
+			if (query.length < 2) {
+			suggestionsBox.innerHTML = "";
+			return;
+			}
+
+			const response = await fetch(`${route}?q=${query}`);
+			const matches = await response.json();
+
+			suggestionsBox.innerHTML = matches.map(item => `
+			<div class="suggestion-item">
+				${item}
+			</div>
+			`).join("");
+
+			// Click suggestion
+			document.querySelectorAll(`#${suggestionId} .suggestion-item`)
+			.forEach(div => {
+
+				div.addEventListener("click", () => {
+				input.value = div.textContent.trim();
+				suggestionsBox.innerHTML = "";
+				});
+
+			});
+
+		});
+
+	}
+
+	// Initialize both autocompletes
+	setupAutocomplete(
+	"professorInput",
+	"professorSuggestions",
+	"/suggest/professors"
+	);
+
+	setupAutocomplete(
+	"courseInput",
+	"courseSuggestions",
+	"/suggest/courses"
+	);
+
+</script>
 
 </html>
