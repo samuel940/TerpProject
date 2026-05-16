@@ -3,6 +3,66 @@
 const alasql = require("alasql");
 const fs = require("fs");
 
+let allProfessors = [];
+let allCourses = [];
+
+async function fetchAllPaginated(baseUrl) {
+  let results = [];
+  let offset = 0;
+  const limit = 100;
+
+  while (true) {
+    const response = await fetch(`${baseUrl}&offset=${offset}`);
+    const data = await response.json();
+
+    // Stop if no more results
+    if (data.length === 0) {
+      break;
+    }
+
+    results = results.concat(data);
+
+    // Stop if final partial page
+    if (data.length < limit) {
+      break;
+    }
+
+    offset += limit;
+  }
+
+  return results;
+}
+
+async function loadData() {
+  try {
+
+    const [profData, courseData] = await Promise.all([
+      fetchAllPaginated("https://planetterp.com/api/v1/professors?"),
+      fetchAllPaginated("https://planetterp.com/api/v1/courses?")
+    ]);
+
+    allProfessors = [...new Set(
+      profData.map(prof => prof.name)
+    )];
+
+    allCourses = [...new Set(
+      courseData.map(course => course.name)
+    )];
+
+    console.log("Loaded autocomplete data");
+
+  } catch (error) {
+    console.error("Failed to load autocomplete data:", error);
+  }
+}
+function getAllProfessors() {
+  return allProfessors;
+}
+
+function getAllCourses() {
+  return allCourses;
+}
+
 async function rateAllClassesForProfessor(name) {
 
   const encodedName = encodeURIComponent(name);
@@ -31,7 +91,7 @@ async function rateAllClassesForProfessor(name) {
     return results;
 
   } catch(error) {
-    console.error("Invalid JSON input:", error.message);
+    console.error("Failed to fetch or process professor reviews:", error.message);
     return [];
   }
 }
@@ -61,12 +121,15 @@ async function rateAllProfessorsForClass(name) {
     return results;
 
   } catch(error) {
-    console.error("Invalid JSON input:", error.message);
+    console.error("Failed to fetch or process course reviews:", error.message);
     return [];
   }
 }
 
 module.exports = {
   rateAllClassesForProfessor,
-  rateAllProfessorsForClass
+  rateAllProfessorsForClass,
+  loadData,
+  getAllProfessors,
+  getAllCourses
 };
