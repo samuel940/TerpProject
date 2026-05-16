@@ -1,0 +1,46 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Terp Rating Viewer</title>
+	<link rel="stylesheet" href="/webstyle.css">
+</head>
+
+<body>
+	<header class="mainHead">
+		<h1>Terp Rating Viewer</h1>
+		
+	</header>
+	<div class="searching">
+		<div class="leftSearch">
+			<form action="/professor" method="get">
+				<strong>Search for a Professor</strong><br>
+				<input type="text" name="professor" required>
+				
+				<input type="submit" value="Search">
+			</form>
+			<%- errorProf -%>
+		</div>
+
+		<div class="rightSearch">
+			<form action="/course" method="get">
+				<strong>Search for a Course</strong><br>
+				<input type="text" name="course" required>
+				<input type="submit" value="Search">
+				
+			</form>
+			<%- errorCourse -%>
+		</div>
+	</div>
+	<!-- giving myself credit -->
+    <footer>
+        <p>Made by Samuel Rowe</p>
+    </footer>
+
+	
+	
+</body>
+
+</html>
