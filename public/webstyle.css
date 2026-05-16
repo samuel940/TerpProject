@@ -4,20 +4,27 @@ body {
 	font-family: Ariel, Verdana;
 	color: #344152;
 	margin: 10px;
-	background: #000000;
+	background: #000040;
 }
 
 
 
 header {
-	font-family: 'Cursive', cursive;
-	background-color: #0a52d7;
+	font-family: cursive;
+	background-color: #0A52D7;
 	color: rgb(226, 14, 14);
 	padding: 1em 2em;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	border: 3px solid #FFFF04;
 }
+
+.mainHead {
+    text-align: center;
+    display: flow;
+}
+
 
 p {
 	font-family: "Helvetica", Arial, sans-serif;
@@ -32,16 +39,20 @@ hr {
 }
 
 th {
-    background-color: white;
-    color: rgb(88, 87, 87);
+    background-color: #000040;
+    color: blanchedalmond;
 }
 
-tr:nth-child(even){
-    background-color: rgb(225, 14, 14);
+table{
+    text-align: center;
+}
+
+tr:nth-child(odd){
+    background-color: #020277;
     color: white;
 }
-tr:nth-child(odd){
-    background-color: rgb(19, 144, 12);
+tr:nth-child(even){
+    background-color: #000040;
     color: white;
 }
 
@@ -55,10 +66,11 @@ fieldset {
 
 
 
-nav a {
+nav {
     color: rgb(235, 234, 230);
-    margin-left: 15px;
-	
+    gap: 10px;
+	display: flex; 
+    align-items: center;
 }
 
 form {
@@ -74,27 +86,53 @@ legend{
   margin-left: auto;
   margin-right: auto;
 }
+#account {
+    font-size: 25px;
+    color: rgb(226, 14, 14);
+}
 
-
-
+#logout {
+    display: inline; /* Makes form take only necessary width */
+    margin: 0; /* Removes default form margins */
+}
 
 button {
     background-color: #28a745;
     color: white;
-    border: none;
     padding: 0.5em 1em;
     cursor: pointer;
+    border: 3px solid #FFFF04;
 }
 
 
 footer {
-    background-color: #333;
-	background-color: #0a52d7;
+	background-color: #0A52D7;
     color: white;
     text-align: center;
     padding: 1em;
+	border: 3px solid #FFFF04;
 }
 
 div{
     text-align: center;
+    color: #ffffff;
+}
+
+.searching {
+  display: flex;                
+  align-items: center;          
+  justify-content: space-between; 
+  width: 100%;
+}
+
+.leftSearch {
+    padding-left: 10rem;
+    padding-bottom: 10rem;
+    padding-top: 5rem;
+}
+
+.rightSearch {
+    padding-right: 10rem;
+    padding-bottom: 10rem;
+    padding-top: 5rem;
 }
