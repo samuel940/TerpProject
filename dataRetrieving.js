@@ -42,7 +42,7 @@ async function loadData() {
     ]);
 
     allProfessors = [...new Set(
-      profData.map(prof => prof.name)
+      profData.filter(prof => prof.average_rating !== null).map(prof => prof.name)
     )];
 
     allCourses = [...new Set(
