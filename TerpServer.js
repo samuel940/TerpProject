@@ -11,11 +11,15 @@ app.use(express.json());
 // importing from dataRetrieving.js
 const {
   rateAllClassesForProfessor,
-  rateAllProfessorsForClass
+  rateAllProfessorsForClass,
+  loadData,
+  getAllProfessors,
+  getAllCourses
 } = require("./dataRetrieving");
 
 // open port
 const portNumber = process.env.PORT || 2003;
+
 
 
 // getting access to templates (webpages) and public (stylesheet)
@@ -29,6 +33,39 @@ app.get("/", (req, res) => {
   res.render("index" ,{ errorProf: "", errorCourse: ""});
 });
 
+app.get("/suggest/professors", (req, res) => {
+  const query = req.query.q?.toLowerCase() || "";
+
+  if (query.length === 0) {
+    return res.json([]);
+  }
+
+  const matches = getAllProfessors()
+    .filter(name =>
+      name.toLowerCase().startsWith(query)
+    )
+    .slice(0, 10);
+
+  res.json(matches);
+});
+
+app.get("/suggest/courses", (req, res) => {
+  const query = req.query.q?.toLowerCase() || "";
+
+  if (query.length === 0) {
+    return res.json([]);
+  }
+
+  const matches = getAllCourses()
+    .filter(course =>
+      course.toLowerCase().startsWith(query)
+    )
+    .slice(0, 10);
+
+  res.json(matches);
+});
+
+// when you search a specific professor
 app.get("/professor", async (req, res) => {
   const professor = req.query.professor;
   let courseTable = '<table><tr><th>Courses</th><th>Average Rating</th><th>Total Reviews</th></tr>`';
@@ -61,6 +98,7 @@ app.get("/professor", async (req, res) => {
   
 });
 
+// when you search a specific course
 app.get("/course", async (req, res) => {
   const course = req.query.course;
   let professorTable = '<table><tr><th>Professor</th><th>Average Rating</th><th>Total Reviews</th></tr>`';
@@ -91,10 +129,12 @@ app.get("/course", async (req, res) => {
   
 });
 
-app.listen(portNumber, () => {
+loadData().then(() => {
+  app.listen(portNumber, () => {
     console.log(`Web server is running at http://localhost:${portNumber}`);
     console.log("Stop to shutdown the server");
   });
+});
 
 // info for closing and opening server on terminal
 process.stdin.on('readable', () => {
