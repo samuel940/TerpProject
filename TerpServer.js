@@ -3,7 +3,6 @@
 const path = require("path");
 const express = require("express");
 const app = express();
-const alasql = require("alasql");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
@@ -14,7 +13,9 @@ const {
   rateAllProfessorsForClass,
   loadData,
   getAllProfessors,
-  getAllCourses
+  getAllCourses,
+  sortbyReviewCount,
+  sortbyRating
 } = require("./dataRetrieving");
 
 // open port
@@ -51,6 +52,40 @@ app.get("/suggest/professors", (req, res) => {
   res.json(matches);
 });
 
+// sorting current table by ratings
+app.get("/sort/ratings", async (req, res) => {
+    const currTable = req.query.table;
+    const name = req.query.name;
+
+    if (currTable == "course") {
+      const allElements = await rateAllClassesForProfessor(name);
+      const sortedCourses = sortbyRating(allElements);
+      res.json(sortedCourses);
+
+    } else {
+      const allElements = await rateAllProfessorsForClass(name);
+      const sortedProfs = sortbyRating(allElements);
+      res.json(sortedProfs);
+    }
+});
+
+// sorting current table by review count
+app.get("/sort/reviewTotal", async (req, res) => {
+    const currTable = req.query.table;
+    const name = req.query.name;
+
+    if (currTable == "course") {
+      const allElements = await rateAllClassesForProfessor(name);
+      const sortedCourses = sortbyReviewCount(allElements);
+      res.json(sortedCourses);
+
+    } else {
+      const allElements = await rateAllProfessorsForClass(name);
+      const sortedProfs = sortbyReviewCount(allElements);
+      res.json(sortedProfs);
+    }
+});
+
 // gets matching queries for autocomplete when searching for course
 app.get("/suggest/courses", (req, res) => {
   const query = req.query.q?.toLowerCase() || "";
@@ -72,7 +107,8 @@ app.get("/suggest/courses", (req, res) => {
 // when you search a specific professor
 app.get("/professor", async (req, res) => {
   const professor = req.query.professor;
-  let courseTable = '<table><tr><th>Courses</th><th>Average Rating</th><th>Total Reviews</th></tr>';
+  //console.log(professor);
+  let courseTable = `<table><tr><th>Courses</th><th>Average Rating</th><th>Total Reviews</th></tr>`;
   
   try {
     const allCourses = await rateAllClassesForProfessor(professor);
@@ -81,13 +117,14 @@ app.get("/professor", async (req, res) => {
       res.render("index" ,{ errorProf: `This professor does not exist`, errorCourse: ""});
     } else {
 
-      //console.log(allCourses[0]);
     allCourses.forEach(course => {
       courseTable += `<tr><td>${course.course}</td><td>${course.average_rating}</td><td>${course.total_reviews}</td></tr>`;
       
     });
 
     courseTable += `</table>`;
+
+    //console.log(courseTable);
     res.render("courseTable", {professor, courseTable});
 
     }
