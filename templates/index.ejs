@@ -23,7 +23,11 @@
 				
 				<input type="submit" value="Search">
 			</form>
-			<%- errorProf -%>
+			<% if (errorProf) { %>
+				<div class="error-message">
+					<%- errorProf -%>
+				</div>
+			<% } %>
 		</div>
 
 		<div class="rightSearch">
@@ -37,7 +41,11 @@
 				<input type="submit" value="Search">
 				
 			</form>
-			<%- errorCourse -%>
+			<% if (errorCourse) { %>
+				<div class="error-message">
+					<%- errorCourse -%>
+				</div>
+			<% } %>
 		</div>
 	</div>
 	<!-- giving myself credit -->
@@ -100,6 +108,19 @@
 	"courseSuggestions",
 	"/suggest/courses"
 	);
+
+	// Remove error messages after 5 seconds
+	setTimeout(() => {
+		document.querySelectorAll(".error-message").forEach(error => {
+			error.style.transition = "opacity 0.5s";
+			error.style.opacity = "0";
+
+			// Remove completely after fade out
+			setTimeout(() => {
+				error.remove();
+			}, 500);
+		});
+	}, 5000);
 
 </script>
 
