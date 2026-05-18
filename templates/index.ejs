@@ -59,14 +59,16 @@
 <script>
 
 	async function setupAutocomplete(inputId, suggestionId, route) {
-
+		//go to correct input and suggestion div
 		const input = document.getElementById(inputId);
 		const suggestionsBox = document.getElementById(suggestionId);
-
+		
+		// read the input text
 		input.addEventListener("input", async () => {
 
 			const query = input.value.trim();
 
+			// do nothing if less then 2 characters
 			if (query.length < 2) {
 			suggestionsBox.innerHTML = "";
 			return;
@@ -75,16 +77,17 @@
 			const response = await fetch(`${route}?q=${query}`);
 			const matches = await response.json();
 
+			// create suggestion-item for each item that starts with query
 			suggestionsBox.innerHTML = matches.map(item => `
 			<div class="suggestion-item">
 				${item}
 			</div>
 			`).join("");
 
-			// Click suggestion
+			// click suggestion
 			document.querySelectorAll(`#${suggestionId} .suggestion-item`)
 			.forEach(div => {
-
+				// when you click a suggestion, fill the textbox with that text value
 				div.addEventListener("click", () => {
 				input.value = div.textContent.trim();
 				suggestionsBox.innerHTML = "";
@@ -96,7 +99,7 @@
 
 	}
 
-	// Initialize both autocompletes
+	// initialize both autocompletes
 	setupAutocomplete(
 	"professorInput",
 	"professorSuggestions",
@@ -109,13 +112,14 @@
 	"/suggest/courses"
 	);
 
-	// Remove error messages after 5 seconds
+	// remove error messages after 5 seconds
 	setTimeout(() => {
 		document.querySelectorAll(".error-message").forEach(error => {
+			// fade out after 5000 ms (5 seconds)
 			error.style.transition = "opacity 0.5s";
 			error.style.opacity = "0";
 
-			// Remove completely after fade out
+			// remove 500 milliseconds after fade out
 			setTimeout(() => {
 				error.remove();
 			}, 500);
