@@ -63,6 +63,20 @@ function getAllCourses() {
   return allCourses;
 }
 
+function sortbyReviewCount(allElements) {
+  return [...allElements].sort((a, b) =>
+    Number(b.total_reviews) - Number(a.total_reviews)
+  );
+}
+
+function sortbyRating(allElements) {
+  return alasql(`
+    SELECT *
+    FROM ?
+    ORDER BY average_rating DESC
+  `, [allElements]);
+}
+
 async function rateAllClassesForProfessor(name) {
 
   const encodedName = encodeURIComponent(name);
@@ -131,5 +145,7 @@ module.exports = {
   rateAllProfessorsForClass,
   loadData,
   getAllProfessors,
-  getAllCourses
+  getAllCourses,
+  sortbyReviewCount,
+  sortbyRating
 };
