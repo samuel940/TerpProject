@@ -19,8 +19,19 @@
 		
 	</header>
 	<p> How good <%- professor -%> is at each course based on star ranking</p>
+	<nav>Sort By: <br>
+		<button onclick="sortCourseTable('ratings')">
+        Ratings
+		</button>
 
-	<%- courseTable -%>
+		<button onclick="sortCourseTable('reviewTotal')">
+			Review Total
+		</button>
+	
+	</nav>
+	<div id="tableContainer">
+		<%- courseTable -%>
+	</div>
 	<!-- giving myself credit -->
     <footer>
         <p>Made by Samuel Rowe</p>
@@ -29,5 +40,38 @@
 	
 	
 </body>
+<script>
+
+	
+	async function sortCourseTable(parameter) {
+	// getting current professor
+	const params = new URLSearchParams(window.location.search);
+	const professor = params.get('professor');
+
+	// calling sorted json file
+	const response = await fetch(
+		`/sort/${parameter}?table=course&name=${professor}`
+	);
+
+	// recreating table
+	const matches = await response.json();
+	let table ='<table><tr><th>Course</th><th>Average Rating</th><th>Total Reviews</th></tr>';
+
+	matches.forEach(course => {
+		table += `<tr>
+			<td>${course.course}</td>
+			<td>${course.average_rating}</td>
+			<td>${course.total_reviews}</td>
+		</tr>`;
+	});
+
+	table += `</table>`;
+
+	document.getElementById("tableContainer").innerHTML = table;
+	
+	
+	}
+</script>
+
 
 </html>
