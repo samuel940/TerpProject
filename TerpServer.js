@@ -33,9 +33,11 @@ app.get("/", (req, res) => {
   res.render("index" ,{ errorProf: "", errorCourse: ""});
 });
 
+// gets matching queries for autocomplete when searching for professor
 app.get("/suggest/professors", (req, res) => {
   const query = req.query.q?.toLowerCase() || "";
 
+  //send json file for matches up to 10 choices
   if (query.length === 0) {
     return res.json([]);
   }
@@ -49,9 +51,11 @@ app.get("/suggest/professors", (req, res) => {
   res.json(matches);
 });
 
+// gets matching queries for autocomplete when searching for course
 app.get("/suggest/courses", (req, res) => {
   const query = req.query.q?.toLowerCase() || "";
 
+  //send json file for matches up to 10 choices
   if (query.length === 0) {
     return res.json([]);
   }
@@ -68,7 +72,7 @@ app.get("/suggest/courses", (req, res) => {
 // when you search a specific professor
 app.get("/professor", async (req, res) => {
   const professor = req.query.professor;
-  let courseTable = '<table><tr><th>Courses</th><th>Average Rating</th><th>Total Reviews</th></tr>`';
+  let courseTable = '<table><tr><th>Courses</th><th>Average Rating</th><th>Total Reviews</th></tr>';
   
   try {
     const allCourses = await rateAllClassesForProfessor(professor);
@@ -101,7 +105,7 @@ app.get("/professor", async (req, res) => {
 // when you search a specific course
 app.get("/course", async (req, res) => {
   const course = req.query.course;
-  let professorTable = '<table><tr><th>Professor</th><th>Average Rating</th><th>Total Reviews</th></tr>`';
+  let professorTable = '<table><tr><th>Professor</th><th>Average Rating</th><th>Total Reviews</th></tr>';
 
   try {
     const allProfessors = await rateAllProfessorsForClass(course);
