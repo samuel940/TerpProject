@@ -82,7 +82,7 @@ app.get("/results", async (req, res) => {
     if (allCourses.length == 0) {
       const allProfessors = await rateAllProfessorsForClass(name);
       if (allProfessors.length == 0){
-        res.render("index" ,{ errorSearch: `This result does not exist`});
+        res.render("index" ,{ errorSearch: `This result does not exist`, courseTotal: totalCourses(), profTotal: totalProfessors()});
       }
       else {
         // matches for course
@@ -114,7 +114,7 @@ app.get("/results", async (req, res) => {
 
     console.error("Not creating table:", error.message);
 
-    res.render("index" ,{ errorSearch: `An error occurred`});
+    res.render("index" ,{ errorSearch: `An error occurred`, courseTotal: totalCourses(), profTotal: totalProfessors()});
   }
   
   
