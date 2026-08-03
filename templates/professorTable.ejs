@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Terp Rating Viewer - Rating all professors at course</title>
+	<title><%= name %> - Terp Rating Viewer</title>
 	<link rel="stylesheet" href="/webstyle.css">
 </head>
 
@@ -18,9 +18,9 @@
 		
 	</header>
 
-	<p> How good all professors are at <%- course -%> based on star ranking</p>
+	<p> How good every professor who teaches <%= name %> are</p>
 
-	<nav>
+	<nav class="sorting">
 		Sort By: <br>
 
 		<button onclick="sortProfessorTable('ratings')">
@@ -33,14 +33,13 @@
 	</nav>
 
 	<div id="tableContainer">
-		<%- professorTable -%>
+		<%- table -%>
 	</div>
 
 	<!-- giving myself credit -->
     <footer>
-        <p>Made by Samuel Rowe</p>
+        <p>This is an unofficial project made by samuel940</p>
     </footer>
-
 </body>
 
 <script>
@@ -48,7 +47,7 @@
 	async function sortProfessorTable(parameter) {
 		// getting current course
 		const params = new URLSearchParams(window.location.search);
-		const course = params.get('course');
+		const course = "<%= name %>";
 
 		// calling sorted json file
 		const response = await fetch(
