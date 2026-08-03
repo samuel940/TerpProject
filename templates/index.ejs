@@ -14,80 +14,64 @@
 		
 	</header>
 	<div class="searching">
-		<div class="leftSearch">
-			<form action="/professor" method="get">
-				<strong>Search for a Professor</strong><br>
-				<input type="text" id="professorInput" name="professor" autocomplete="off" required>
+		<div class="searchDiv">
+			<form action="/results" method="get">
+				<strong>Search for any Professor our course</strong><br>
+				<input type="text" id="textInput" class="searchInput" name="search_query" autocomplete="off" required>
 
-				<div id="professorSuggestions" class="suggestions"></div>
-				
-				<input type="submit" value="Search">
-			</form>
-			<% if (errorProf) { %>
-				<div class="error-message">
-					<%- errorProf -%>
-				</div>
-			<% } %>
-		</div>
-
-		<div class="rightSearch">
-			<form action="/course" method="get">
-				<strong>Search for a Course</strong><br>
-				<input type="text" id="courseInput" name="course" autocomplete="off" required>
-
-				<div id="courseSuggestions" class="suggestions"></div>
-
-
-				<input type="submit" value="Search">
+				<div id="searchSuggestions" class="suggestions"></div>
+				<button type="submit">Search</button><br>
+				<strong>This includes... </strong><br>
+				<%= courseTotal %> courses<br>
+				<%= profTotal %> Professors
 				
 			</form>
-			<% if (errorCourse) { %>
+			<% if (errorSearch) { %>
 				<div class="error-message">
-					<%- errorCourse -%>
+					<%- errorSearch -%>
 				</div>
 			<% } %>
+			
 		</div>
 	</div>
 	<!-- giving myself credit -->
     <footer>
-        <p>Made by Samuel Rowe</p>
+        <p>This is an unofficial project made by samuel940</p>
     </footer>
 
 	
 	
 </body>
 <script>
+	async function createAutocomplete() {
+		const input = document.getElementById("textInput");
+		const suggestionsBox = document.getElementById("searchSuggestions");
 
-	async function setupAutocomplete(inputId, suggestionId, route) {
-		//go to correct input and suggestion div
-		const input = document.getElementById(inputId);
-		const suggestionsBox = document.getElementById(suggestionId);
-		
 		// read the input text
 		input.addEventListener("input", async () => {
 
 			const query = input.value.trim();
 
-			// do nothing if less then 2 characters
-			if (query.length < 2) {
+			// do nothing if less then 3 characters
+			if (query.length < 3) {
 			suggestionsBox.innerHTML = "";
 			return;
 			}
 
-			const response = await fetch(`${route}?q=${query}`);
+			const response = await fetch(`/suggestion?q=${query}`);
 			const matches = await response.json();
 
-			// create suggestion-item for each item that starts with query
+			// adding boxes for suggestion
 			suggestionsBox.innerHTML = matches.map(item => `
 			<div class="suggestion-item">
 				${item}
 			</div>
 			`).join("");
 
-			// click suggestion
-			document.querySelectorAll(`#${suggestionId} .suggestion-item`)
+			// when you click suggestion
+			document.querySelectorAll(`#searchSuggestions .suggestion-item`)
 			.forEach(div => {
-				// when you click a suggestion, fill the textbox with that text value
+				
 				div.addEventListener("click", () => {
 				input.value = div.textContent.trim();
 				suggestionsBox.innerHTML = "";
@@ -96,30 +80,20 @@
 			});
 
 		});
+		
 
 	}
 
-	// initialize both autocompletes
-	setupAutocomplete(
-	"professorInput",
-	"professorSuggestions",
-	"/suggest/professors"
-	);
+	createAutocomplete();
 
-	setupAutocomplete(
-	"courseInput",
-	"courseSuggestions",
-	"/suggest/courses"
-	);
-
-	// remove error messages after 5 seconds
+	// remove error message
 	setTimeout(() => {
 		document.querySelectorAll(".error-message").forEach(error => {
-			// fade out after 5000 ms (5 seconds)
+			// fade out and then delete
 			error.style.transition = "opacity 0.5s";
 			error.style.opacity = "0";
 
-			// remove 500 milliseconds after fade out
+			
 			setTimeout(() => {
 				error.remove();
 			}, 500);
