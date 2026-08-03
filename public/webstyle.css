@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+
 body {
 	font-family: Ariel, Verdana;
 	color: #344152;
@@ -13,7 +16,7 @@ header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border: 0.1875rem solid #FFFF04; 
+    border: 0.1875rem solid #FFFF04; 
 }
 
 .mainHead {
@@ -22,15 +25,11 @@ header {
 }
 
 p {
-	font-family: "Helvetica", Arial, sans-serif;
+	font-family: "Source Serif 4", Arial, sans-serif;
 	font-size: 1.5625rem; 
 	color: #f1f3f1;
     margin-bottom: 1em; 
 	text-align: center;
-}
-
-hr {
-    border: 0.0625rem dashed blanchedalmond; 
 }
 
 th {
@@ -43,6 +42,7 @@ table {
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 5rem;
+    font-family: "Roboto", Arial, sans-serif;
 }
 
 tr:nth-child(odd) {
@@ -55,9 +55,6 @@ tr:nth-child(even) {
     color: white;
 }
 
-fieldset {
-    border: 0.125rem solid rgb(233, 227, 200); 
-}
 
 nav {
     color: rgb(235, 234, 230);
@@ -68,6 +65,7 @@ nav {
 
 form {
     color: white;
+    font-size: 1.5rem; 
 }
 
 button {
@@ -75,7 +73,8 @@ button {
     color: white;
     padding: 0.5em 1em;
     cursor: pointer;
-    border: 0.1875rem solid #FFFF04; 
+    border: 0.1rem solid #FFFF04; 
+    border-radius: 0.5rem;
 }
 
 footer {
@@ -98,27 +97,24 @@ div {
     width: 100%;
 }
 
-.leftSearch {
-    padding-bottom: 10rem;
-    padding-top: 10rem;
-}
 
 .error-message {
 	color: red;
 	margin-top: 0.625rem; 
 }
 
-.rightSearch {
-    padding-bottom: 10rem;
-    padding-top: 10rem;
-}
 
 .suggestions {
     border: 0.0625rem solid #ccc; 
-    max-width: 15.625rem; 
+    max-width: 30.25rem; 
     background-color: white;
     position: absolute;
     z-index: 1000;
+    left: 0;
+    width: 100%;
+}
+.suggestions:empty {
+    display: none;
 }
 
 .suggestion-item {
@@ -127,9 +123,24 @@ div {
     color: black;
     font-size: 0.75rem; 
     text-align: left;
-    width: 8rem;
 }
 
 .suggestion-item:hover {
     background-color: #f0f0f0;
+}
+
+.searchDiv {
+    padding-bottom: 10rem;
+    padding-top: 10rem;
+    position: relative; 
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.3125rem;
+  box-sizing: border-box;
+}
+.sorting {
+    justify-content: center;
+    padding-bottom: 1rem;
 }
