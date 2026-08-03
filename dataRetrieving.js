@@ -52,7 +52,7 @@ async function loadData() {
     console.log("Loaded autocomplete data");
 
   } catch (error) {
-    console.error("Failed to load autocomplete data:", error);
+    console.error("Failed to load data:", error);
   }
 }
 function getAllProfessors() {
@@ -61,6 +61,18 @@ function getAllProfessors() {
 
 function getAllCourses() {
   return allCourses;
+}
+
+function totalProfessors() {
+  return allProfessors.length;
+}
+
+function totalCourses() {
+  return allCourses.length;
+}
+
+function getEverything() {
+  return allProfessors.concat(allCourses);
 }
 
 function sortbyReviewCount(allElements) {
@@ -144,8 +156,9 @@ module.exports = {
   rateAllClassesForProfessor,
   rateAllProfessorsForClass,
   loadData,
-  getAllProfessors,
-  getAllCourses,
+  getEverything,
   sortbyReviewCount,
-  sortbyRating
+  sortbyRating,
+  totalProfessors,
+  totalCourses
 };
