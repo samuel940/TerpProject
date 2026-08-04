@@ -18,7 +18,7 @@
 		
 	</header>
 
-	<p> How good every professor who teaches <%= name %> are</p>
+	<p> How good every <%= name %> professor is</p>
 
 	<nav class="sorting">
 		Sort By: <br>
@@ -45,8 +45,7 @@
 <script>
 
 	async function sortProfessorTable(parameter) {
-		// getting current course
-		const params = new URLSearchParams(window.location.search);
+		
 		const course = "<%= name %>";
 
 		// calling sorted json file
